@@ -1,18 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PacMan_ : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] float speed;
+
+    Vector2 moveInput;
+    Rigidbody2D rb;
+
+    private void Awake()
     {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    public void OnMove(InputValue value)
+    {
+        moveInput = value.Get<Vector2>();
+
+        if (moveInput.x != 0 && moveInput.y != 0)
+        {
+            Debug.Log("Diagonal");
+
+        }
         
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        
+        rb.velocity = moveInput * speed;
     }
 }
