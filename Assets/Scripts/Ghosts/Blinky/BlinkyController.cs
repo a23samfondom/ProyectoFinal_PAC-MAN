@@ -17,6 +17,7 @@ public class BlinkyController : MonoBehaviour
     private Vector2 currentDirection = Vector2.left;
     private Rigidbody2D rgb;
     private bool estaNodo = false;
+    private bool giroNodoFlag = false;
     private void Start()
     {
         rgb = GetComponent<Rigidbody2D>();
@@ -42,7 +43,7 @@ public class BlinkyController : MonoBehaviour
     void TryChangeDirection()
     {
         //if (!IsAtCenterOfTile()) return;
-        if (IsAtCenterOfTile() && estaNodo)
+        if (IsAtCenterOfTile() && estaNodo && !giroNodoFlag)
         {
             Debug.Log("Giro");
             List<Vector2> dirs = GetAvailableDirection();
@@ -65,6 +66,7 @@ public class BlinkyController : MonoBehaviour
                 }
             }
             currentDirection = bestDir;
+            giroNodoFlag = true;
         }
     }
 
@@ -103,6 +105,7 @@ public class BlinkyController : MonoBehaviour
         {
             Debug.Log("Entra Colision");
             estaNodo = true;
+            giroNodoFlag = false;
             return;
         }
     }
@@ -112,6 +115,7 @@ public class BlinkyController : MonoBehaviour
         {
             Debug.Log("Sale Colision");
             estaNodo = false;
+            giroNodoFlag = false;
             return;
         }
     }

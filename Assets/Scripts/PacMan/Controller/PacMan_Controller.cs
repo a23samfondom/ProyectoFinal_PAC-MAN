@@ -6,12 +6,18 @@ public class PacMan_Controller : MonoBehaviour
 {
     [SerializeField] float speed;
 
-    Vector2 moveInput;
-    Rigidbody2D rb;
+    private Vector2 moveInput;
+    private Vector2 currentDirection;
+
+    private Rigidbody2D rb;
+    private Animator animator;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+
+        currentDirection = Vector2.right;
     }
 
     public void OnMove(InputValue value)
@@ -24,33 +30,32 @@ public class PacMan_Controller : MonoBehaviour
             moveInput.x = 0;
         }
 
-        RotatePacMan();
-        
     }
 
     void RotatePacMan()
     {
-        if (moveInput == Vector2.right)
+        if (moveInput != Vector2.zero)
         {
-            transform.rotation = Quaternion.Euler(0,0,0);
-        }
-        else if(moveInput == Vector2.left)
-        {
-            transform.rotation = Quaternion.Euler(0,0,180);
-        }
-        else if (moveInput == Vector2.up)
-        {
-            transform.rotation = Quaternion.Euler(0,0,90);
-        }
-        else if (moveInput == Vector2.down)
-        {
-            transform.rotation = Quaternion.Euler(0, 0, -90);
+            float angle = Mathf.Atan2(moveInput.y, moveInput.x) * Mathf.Rad2Deg;
+            /*Atan2 convierte un vector (x,y) en un ángulo en radianes
+             Devuelve radianes ? los convertimos a grados con Rad2Deg*/
+
+            transform.rotation = Quaternion.Euler(0, 0, angle);
         }
     }
 
     private void FixedUpdate()
     {
-        rb.velocity = moveInput * speed;
+        rb.velocity = currentDirection * speed;
+
+        animator.SetBool("isMoving", true);
+
+        if (moveInput != Vector2.zero)
+        {
+            currentDirection = moveInput;
+        }
+
+        RotatePacMan();
 
     }
 }
