@@ -5,7 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Paredes
+<<<<<<< HEAD
   - Nodo
+=======
+  - PacMan
+  - Node
+>>>>>>> PacMan
   layers:
   - Default
   - TransparentFX
