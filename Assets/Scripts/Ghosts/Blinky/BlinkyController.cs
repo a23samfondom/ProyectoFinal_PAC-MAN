@@ -16,16 +16,16 @@ public class BlinkyController : MonoBehaviour
 
     private Vector2 currentDirection = Vector2.left;
     private Rigidbody2D rgb;
-
+    private bool estaNodo = false;
     private void Start()
     {
         rgb = GetComponent<Rigidbody2D>();
 
-        transform.position = new Vector3(
-        Mathf.Round(transform.position.x),
-        Mathf.Round(transform.position.y),
-        0
-    );
+        //ransform.position = new Vector3(
+        //Mathf.Round(transform.position.x),
+        //Mathf.Round(transform.position.y),
+        //0
+        //);
     }
 
     private void FixedUpdate()
@@ -37,40 +37,46 @@ public class BlinkyController : MonoBehaviour
     void Move()
     {
         rgb.MovePosition(rgb.position + currentDirection * speed * Time.fixedDeltaTime);
-        //transform.position += (Vector3) currentDirection * speed * Time.deltaTime;
     }
 
     void TryChangeDirection()
     {
-        if (!IsAtCenterOfTile()) return;
-
-        List<Vector2> dirs = GetAvailableDirection();
-
-        dirs.Remove(-currentDirection);
-
-        Vector2 target = pacman.transform.position;
-        float bestDist = Mathf.Infinity;
-        Vector2 bestDir = currentDirection;
-
-        foreach (var dir in dirs)
+        //if (!IsAtCenterOfTile()) return;
+        if (IsAtCenterOfTile() && estaNodo)
         {
-            Vector2 nextPos = (Vector2)transform.position + dir;
-            float dist = Vector2.Distance(nextPos, target);
+            Debug.Log("Giro");
+            List<Vector2> dirs = GetAvailableDirection();
 
-            if (dist < bestDist)
+            dirs.Remove(-currentDirection);
+
+            Vector2 target = pacman.transform.position;
+            float bestDist = Mathf.Infinity;
+            Vector2 bestDir = currentDirection;
+
+            foreach (var dir in dirs)
             {
-                bestDist = dist;
-                bestDir = dir;
+                Vector2 nextPos = (Vector2)transform.position + dir;
+                float dist = Vector2.Distance(nextPos, target);
+
+                if (dist < bestDist)
+                {
+                    bestDist = dist;
+                    bestDir = dir;
+                }
             }
+            currentDirection = bestDir;
         }
-        currentDirection = bestDir;
     }
 
     bool IsAtCenterOfTile()
     {
         Vector3 pos = transform.position;
-        return Mathf.Abs(pos.x - Mathf.Round(pos.x)) < 0.05f &&
-            Mathf.Abs(pos.y - Mathf.Round(pos.y)) < 0.05f;
+
+        float cx = Mathf.Floor(pos.x) + 0.5f;
+        float cy = Mathf.Floor(pos.y) + 0.5f;
+
+        return Mathf.Abs(pos.x - cx) < 0.05f &&
+               Mathf.Abs(pos.y - cy) < 0.05f;
     }
 
     bool CanMove(Vector2 dir)
@@ -89,5 +95,24 @@ public class BlinkyController : MonoBehaviour
         if (CanMove(Vector2.right)) dirs.Add(Vector2.right);
 
         return dirs;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Nodo"))
+        {
+            Debug.Log("Entra Colision");
+            estaNodo = true;
+            return;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Nodo"))
+        {
+            Debug.Log("Sale Colision");
+            estaNodo = false;
+            return;
+        }
     }
 }
