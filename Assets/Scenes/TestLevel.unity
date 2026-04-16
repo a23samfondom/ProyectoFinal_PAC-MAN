@@ -273,6 +273,7 @@ GameObject:
   - component: {fileID: 478960499}
   - component: {fileID: 478960498}
   - component: {fileID: 478960497}
+  - component: {fileID: 478960501}
   m_Layer: 0
   m_Name: PacMan
   m_TagString: Untagged
@@ -321,7 +322,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1366974544, guid: fccbe162ad7bf5749bce5f7ff9578e9d, type: 3}
+  m_Sprite: {fileID: 184950965, guid: fccbe162ad7bf5749bce5f7ff9578e9d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -468,6 +469,27 @@ MonoBehaviour:
   m_DefaultActionMap: PacMan
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!95 &478960501
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478960494}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 82d9f7054812c9745bb679346d3ea5f7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
